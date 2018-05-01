@@ -6,6 +6,16 @@ public class Repository {
 
     private String jenkinsFileUrl;
 
+    private String jenkinsFileContent;
+
+    public String getJenkinsFileContent() {
+        return jenkinsFileContent;
+    }
+
+    public void setJenkinsFileContent(String jenkinsFileContent) {
+        this.jenkinsFileContent = jenkinsFileContent;
+    }
+
     public Repository() {
     }
 
@@ -30,6 +40,7 @@ public class Repository {
         return "Repository{" +
                 "repositoryName='" + repositoryName + '\'' +
                 ", jenkinsFileUrl='" + jenkinsFileUrl + '\'' +
+                ", jenkinsFileContent='" + jenkinsFileContent + '\'' +
                 '}';
     }
 }

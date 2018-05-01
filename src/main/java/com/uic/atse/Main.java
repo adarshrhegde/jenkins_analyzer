@@ -6,7 +6,6 @@ import com.uic.atse.impl.RepositoryServiceImpl;
 import com.uic.atse.model.QueryType;
 import com.uic.atse.service.RepositoryQuery;
 import com.uic.atse.service.RepositoryService;
-import com.uic.atse.utils.PipelineAnalyzerProperties;
 import org.apache.log4j.Logger;
 
 public class Main {
@@ -24,7 +23,7 @@ public class Main {
             RepositoryService repositoryService = new RepositoryServiceImpl(query);
 
             // retrieve the results for the query
-            System.out.println(repositoryService.getQueryResult());
+            System.out.println(repositoryService.getQueryResult().get(10));
 
         } catch (PipelineAnalyzerException e) {
             logger.fatal("Exception occurred", e);
