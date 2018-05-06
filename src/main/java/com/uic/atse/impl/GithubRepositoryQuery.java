@@ -4,8 +4,10 @@ import com.uic.atse.exception.PipelineAnalyzerException;
 import com.uic.atse.model.QueryType;
 import com.uic.atse.model.Repository;
 import com.uic.atse.service.RepositoryQuery;
+import com.uic.atse.utils.HttpUtils;
 import com.uic.atse.utils.PipelineAnalyzerProperties;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -21,7 +23,10 @@ import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +69,7 @@ public class GithubRepositoryQuery extends RepositoryQuery {
 
         String url = getBaseUrl() + getPath() +
                 "?q=" + getQueryString() + "+" + getSearchPath() +
-                "&type=" + getSearchType() + "&ref=" + getRef();
+                "&type=" + getSearchType() + "&ref=" + getRef() + "&per_page=100";
         logger.info("Query Url = "+ url);
 
         return createRequestFromUrl(url);
@@ -99,6 +104,9 @@ public class GithubRepositoryQuery extends RepositoryQuery {
                     repository.setJenkinsFileUrl((String) item.get("url"));
                     repository.setRepositoryName((String) ((JSONObject) item.get("repository")).get("name"));
                     repository.setJenkinsFileContent(getFileContentsFromUrl(repository.getJenkinsFileUrl()));
+                    if(repository.getJenkinsFileContent().startsWith("pipeline")) {
+                        repository.setJson(HttpUtils.getJsonFromJenkins(repository.getJenkinsFileContent()));
+                    }
                     repositoryList.add(repository);
                 }
             }
@@ -123,7 +131,13 @@ public class GithubRepositoryQuery extends RepositoryQuery {
 
                 logger.info("Getting file contents using download url " + downloadUrl);
 
-                return performHTTPRequest(downloadUrl);
+                InputStream in = new URL(downloadUrl).openStream();
+
+                try {
+                    return IOUtils.toString(in);
+                } finally {
+                    IOUtils.closeQuietly(in);
+                }
 
             } else {
                 PipelineAnalyzerException ex = new PipelineAnalyzerException("Download url for Jenkins file unavailable");
@@ -134,6 +148,11 @@ public class GithubRepositoryQuery extends RepositoryQuery {
         } catch (ParseException e) {
             PipelineAnalyzerException ex = new PipelineAnalyzerException("Exception occurred while parsing json response ",e);
             logger.fatal("Exception occurred while parsing json response", ex);
+            throw ex;
+
+        } catch (IOException e) {
+            PipelineAnalyzerException ex = new PipelineAnalyzerException("Exception occurred while getting content from url ",e);
+            logger.fatal("Exception occurred while getting content from url", ex);
             throw ex;
         }
 
