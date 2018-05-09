@@ -62,9 +62,13 @@ public class HttpUtils {
             String responseBody = httpclient.execute(request, responseHandler);
             JSONParser parser = new org.json.simple.parser.JSONParser();
             JSONObject jsonResponse = (JSONObject) parser.parse(responseBody);
-            JSONObject pipeline = (JSONObject) ((JSONObject) jsonResponse.get("data")).get("json");
+            JSONObject response = (JSONObject) ((JSONObject) jsonResponse.get("data")).get("json");
+            if(null!=response){
+                JSONObject pipeline= (JSONObject)response.get("pipeline");
+                return pipeline;
+            }
+            return null;
 
-            return pipeline;
 
         } catch (IOException | ParseException e) {
             PipelineAnalyzerException ex = new PipelineAnalyzerException("Exception occurred while requesting jenkins service for json", e);

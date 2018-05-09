@@ -69,7 +69,7 @@ public class GithubRepositoryQuery extends RepositoryQuery {
 
         String url = getBaseUrl() + getPath() +
                 "?q=" + getQueryString() + "+" + getSearchPath() +
-                "&type=" + getSearchType() + "&ref=" + getRef() + "&per_page=100";
+                "&type=" + getSearchType() + "&ref=" + getRef() + "&per_page=100&page=3";
         logger.info("Query Url = "+ url);
 
         return createRequestFromUrl(url);

@@ -1,6 +1,7 @@
 package com.uic.atse.impl;
 
 import com.uic.atse.exception.PipelineAnalyzerException;
+import com.uic.atse.mapper.JsonJavaMapper;
 import com.uic.atse.model.Repository;
 import com.uic.atse.service.RepositoryQuery;
 import com.uic.atse.service.RepositoryService;
@@ -59,6 +60,8 @@ public class RepositoryServiceImpl implements RepositoryService {
             logger.fatal("Exception occured while performing http request", ex);
             throw ex;
         }
+
+
 
     }
 
