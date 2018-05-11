@@ -2,9 +2,9 @@
 2. Import Jenkins files into local.
  
 Questions
-- What tools are the most and the least frequently used in pipelines? Srinath
+- What tools are the most and the least frequently used in pipelines? Srinath Completed
 - How often timeout periods are used in the pipeline runs and what are the most frequent intervals? Adarsh
-- What are the most frequent post-condition blocks in the post section within jenkins pipelines? Ashwani
+- What are the most frequent post-condition blocks in the post section within jenkins pipelines? Ashwani Completed
 - Create distribution graphs for post-condition blocks. 
 - How is the presence of triggers in a pipeline correlates with the number of stages in the pipeline? 
 - What are the most and the least frequent operations in pipeline stages? 
