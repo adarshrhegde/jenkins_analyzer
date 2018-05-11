@@ -1,6 +1,6 @@
 1. Read Paper to understand how reports are generated.
 2. Import Jenkins files into local.
-3. 
+ 
 Questions
 - What tools are the most and the least frequently used in pipelines? Srinath
 - How often timeout periods are used in the pipeline runs and what are the most frequent intervals? Adarsh
@@ -9,4 +9,13 @@ Questions
 - How is the presence of triggers in a pipeline correlates with the number of stages in the pipeline? 
 - What are the most and the least frequent operations in pipeline stages? 
 - How does the presence of timeouts correlate with certain commands executed at different stages of the pipeline? 
+
+- How are multiple agents used in different pipeline ?
+- How are the results share across multiple agents ?
+- How frequent is the stashing step use in the pipeline ?
+- What are the most frequent user define parameters used in the pipeline ?
+- How are shared libraries used to extend pipeline functionalities across various projects in a pipeline ?
+
+
+
 
