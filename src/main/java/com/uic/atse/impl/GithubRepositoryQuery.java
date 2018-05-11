@@ -69,7 +69,7 @@ public class GithubRepositoryQuery extends RepositoryQuery {
 
         String url = getBaseUrl() + getPath() +
                 "?q=" + getQueryString() + "+" + getSearchPath() +
-                "&type=" + getSearchType() + "&ref=" + getRef() + "&per_page=10&page=1";
+                "&type=" + getSearchType() + "&ref=" + getRef() + "&per_page=100&page="+page;
         logger.info("Query Url = "+ url);
 
         return createRequestFromUrl(url);
@@ -86,33 +86,36 @@ public class GithubRepositoryQuery extends RepositoryQuery {
 
     }
 
-    public List<Repository> convertResponse(StringBuilder content) throws PipelineAnalyzerException {
+    public List<Repository> convertResponse(List<StringBuilder> response) throws PipelineAnalyzerException {
         List<Repository> repositoryList = new ArrayList<>();
 
+        logger.trace("Response string >>" + response);
+
         try {
+            for(StringBuilder content : response) {
+                JSONParser parser = new JSONParser();
+                JSONObject jsonResponse = (JSONObject) parser.parse(content.toString());
 
-            JSONParser parser = new JSONParser();
-            JSONObject jsonResponse = (JSONObject) parser.parse(content.toString());
+                if (null != jsonResponse.get("items")) {
 
-            if(null != jsonResponse.get("items")) {
+                    JSONArray responseItems = (JSONArray) jsonResponse.get("items");
 
-                JSONArray responseItems = (JSONArray) jsonResponse.get("items");
-
-                for(int i=0; i < responseItems.size(); i++){
-                    Repository repository = new Repository();
-                    JSONObject item = (JSONObject) responseItems.get(i);
-                    repository.setJenkinsFileUrl((String) item.get("url"));
-                    repository.setRepositoryName((String) ((JSONObject) item.get("repository")).get("name"));
-                    repository.setJenkinsFileContent(getFileContentsFromUrl(repository.getJenkinsFileUrl()));
-                    if(repository.getJenkinsFileContent().contains("pipeline")) {
-                        repository.setJson(HttpUtils.getJsonFromJenkins(repository.getJenkinsFileContent()));
+                    for (int i = 0; i < responseItems.size(); i++) {
+                        Repository repository = new Repository();
+                        JSONObject item = (JSONObject) responseItems.get(i);
+                        repository.setJenkinsFileUrl((String) item.get("url"));
+                        repository.setRepositoryName((String) ((JSONObject) item.get("repository")).get("name"));
+                        repository.setJenkinsFileContent(getFileContentsFromUrl(repository.getJenkinsFileUrl()));
+                        if (repository.getJenkinsFileContent().contains("pipeline")) {
+                            repository.setJson(HttpUtils.getJsonFromJenkins(repository.getJenkinsFileContent()));
+                        }
+                        repositoryList.add(repository);
                     }
-                    repositoryList.add(repository);
                 }
             }
         } catch (ParseException e) {
-            PipelineAnalyzerException ex = new PipelineAnalyzerException("Error occurred while creating json object from response",e);
-            logger.error("Error occurred while accessing json object in response", ex);
+            PipelineAnalyzerException ex = new PipelineAnalyzerException("Error occurred while creating json object from response ",e);
+            logger.error("Error occurred while accessing json object in response ", ex);
             throw ex;
         }
 

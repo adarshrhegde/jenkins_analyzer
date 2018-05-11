@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RepositoryServiceImpl implements RepositoryService {
@@ -33,25 +34,38 @@ public class RepositoryServiceImpl implements RepositoryService {
         try {
 
             logger.info("Performing http request to get repositories for query");
-            HttpClient client = HttpClientBuilder.create().build();
-            HttpGet request = repositoryQuery.createRequest();
-            HttpResponse response = client.execute(request);
-            logger.info("Status code for response " + response.getStatusLine().getStatusCode());
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            List<StringBuilder> content = new ArrayList<>();
 
-            StringBuilder content = new StringBuilder();
-            String line = "";
-            while((line = br.readLine()) != null){
-                content.append(line);
-            }
+            // handles pagination in github developer api
+            int i=1;
+            boolean isAvailable = true;
 
-            logger.info("Response "+ content);
+            do {
+                repositoryQuery.setPage(i);
+                i++;
+                HttpClient client = HttpClientBuilder.create().build();
+                HttpGet request = repositoryQuery.createRequest();
+                HttpResponse response = client.execute(request);
+                logger.info("Status code for response " + response.getStatusLine().getStatusCode());
 
-            if(content.equals("")){
-                logger.info("Empty response to query");
-                return null;
-            }
+                BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+                StringBuilder queryContent = new StringBuilder();
+                String line = "";
+                while ((line = br.readLine()) != null) {
+                    queryContent.append(line);
+                }
+
+                logger.trace("Response " + queryContent);
+
+                if (queryContent.toString().equals("")) {
+                    logger.info("Empty response to query");
+                    isAvailable = false;
+                }
+                content.add(queryContent);
+            } while (isAvailable && i < 4);
+
             return repositoryQuery.convertResponse(content);
 
         } catch (IOException e) {

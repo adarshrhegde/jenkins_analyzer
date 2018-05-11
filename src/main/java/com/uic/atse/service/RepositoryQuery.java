@@ -30,6 +30,8 @@ public class RepositoryQuery {
 
     public QueryType queryType;
 
+    public int page;
+
     public RepositoryQuery(){}
 
     public String getBaseUrl() {
@@ -60,15 +62,23 @@ public class RepositoryQuery {
         return requestHeaders;
     }
 
+    public void setPage(int page) {
+        this.page = page;
+    }
+
     public QueryType getQueryType() {
         return queryType;
+    }
+
+    public int getPage() {
+        return page;
     }
 
     public HttpGet createRequest() throws PipelineAnalyzerException {
         return null;
     }
 
-    public List<Repository> convertResponse(StringBuilder content) throws PipelineAnalyzerException {
+    public List<Repository> convertResponse(List<StringBuilder> content) throws PipelineAnalyzerException {
         return null;
     }
 }

@@ -38,7 +38,7 @@ public class Main {
                     .filter(repository->null!=repository.getJson()).map((repo)-> {
                 Pipeline pipe= null;
                 try {
-                    System.out.println(repo.getJson().toString());
+                    logger.trace("JSON String >>" + repo.getJson().toString());
                     pipe = json1.readJsonWithObjectMapper(repo.getJson().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -47,7 +47,7 @@ public class Main {
                 return pipe;
             }).filter(pipeline->null!=pipeline).collect(Collectors.toList());
 
-
+            System.out.println("# of pipelines"+pipelines.size());
         } catch (PipelineAnalyzerException e) {
             logger.fatal("Exception occurred", e);
         }

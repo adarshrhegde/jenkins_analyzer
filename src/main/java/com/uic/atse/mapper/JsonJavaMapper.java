@@ -3,13 +3,10 @@ package com.uic.atse.mapper;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.uic.atse.exception.PipelineAnalyzerException;
-import com.uic.atse.model.Example;
 import com.uic.atse.model.Pipeline;
 import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggerFactory;
-import java.io.File;
+
 import java.io.IOException;
 
 public class JsonJavaMapper  {
@@ -25,7 +22,7 @@ public class JsonJavaMapper  {
                 objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
                 objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-                logger.info(pipeline.toString());
+                logger.trace("Pipeline object" + pipeline.toString());
                 return pipeline;
             }
 
