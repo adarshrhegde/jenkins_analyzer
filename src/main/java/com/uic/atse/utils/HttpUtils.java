@@ -47,7 +47,7 @@ public class HttpUtils {
             HttpUriRequest request = RequestBuilder
                     .post(properties.getJenkinsURL() + "pipeline-model-converter/toJson")
                     .setEntity(httpEntity).build();
-            System.out.println("Executing request " + request.getRequestLine());
+//            System.out.println("Executing request " + request.getRequestLine());
 
             // Create a custom response handler
             ResponseHandler<String> responseHandler = response -> {

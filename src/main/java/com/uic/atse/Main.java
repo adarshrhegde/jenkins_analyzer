@@ -50,8 +50,7 @@ public class Main {
 
             System.out.println("# of pipelines"+pipelines.size());
             PipelineAnalyzerImpl pipelineAnalyzer = new PipelineAnalyzerImpl(pipelines);
-            pipelineAnalyzer.FrequentPostConditionBlocks();
-
+            pipelineAnalyzer.execute();
 
         } catch (PipelineAnalyzerException e) {
             logger.fatal("Exception occurred", e);
