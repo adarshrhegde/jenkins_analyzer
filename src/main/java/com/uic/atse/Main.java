@@ -2,6 +2,7 @@ package com.uic.atse;
 
 import com.uic.atse.exception.PipelineAnalyzerException;
 import com.uic.atse.impl.GithubRepositoryQuery;
+import com.uic.atse.impl.PipelineAnalyzerImpl;
 import com.uic.atse.impl.RepositoryServiceImpl;
 import com.uic.atse.mapper.JsonJavaMapper;
 import com.uic.atse.model.Pipeline;
@@ -48,6 +49,10 @@ public class Main {
             }).filter(pipeline->null!=pipeline).collect(Collectors.toList());
 
             System.out.println("# of pipelines"+pipelines.size());
+            PipelineAnalyzerImpl pipelineAnalyzer = new PipelineAnalyzerImpl(pipelines);
+            pipelineAnalyzer.FrequentPostConditionBlocks();
+
+
         } catch (PipelineAnalyzerException e) {
             logger.fatal("Exception occurred", e);
         }
