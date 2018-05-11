@@ -3,25 +3,44 @@ package com.uic.atse.model;
 
 import java.util.HashMap;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import com.fasterxml.jackson.annotation.*;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+/*@JsonInclude(JsonInclude.Include.ALWAYS)
 @JsonPropertyOrder({
     "key",
+    "isLiteral",
     "value"
-})
+})*/
+
+//@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Argument {
 
+    //@JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("key")
     private String key;
+
+    //@JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("value")
     private Value value;
+
+    //@JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("isLiteral")
+    private Boolean isLiteral;
+
+    @JsonProperty("isLiteral")
+    public Boolean getIsLiteral() {
+        return isLiteral;
+    }
+
+    @JsonProperty("isLiteral")
+    public void setIsLiteral(Boolean isLiteral) {
+        this.isLiteral = isLiteral;
+    }
+
+
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -57,7 +76,7 @@ public class Argument {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("key", key).append("value", value).append("additionalProperties", additionalProperties).toString();
+        return new ToStringBuilder(this).append("key", key).append("value", value).append("isLiteral", isLiteral).append("additionalProperties", additionalProperties).toString();
     }
 
 }

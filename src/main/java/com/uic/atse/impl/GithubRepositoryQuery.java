@@ -69,7 +69,7 @@ public class GithubRepositoryQuery extends RepositoryQuery {
 
         String url = getBaseUrl() + getPath() +
                 "?q=" + getQueryString() + "+" + getSearchPath() +
-                "&type=" + getSearchType() + "&ref=" + getRef() + "&per_page=100&page=3";
+                "&type=" + getSearchType() + "&ref=" + getRef() + "&per_page=10&page=1";
         logger.info("Query Url = "+ url);
 
         return createRequestFromUrl(url);
@@ -104,7 +104,7 @@ public class GithubRepositoryQuery extends RepositoryQuery {
                     repository.setJenkinsFileUrl((String) item.get("url"));
                     repository.setRepositoryName((String) ((JSONObject) item.get("repository")).get("name"));
                     repository.setJenkinsFileContent(getFileContentsFromUrl(repository.getJenkinsFileUrl()));
-                    if(repository.getJenkinsFileContent().startsWith("pipeline")) {
+                    if(repository.getJenkinsFileContent().contains("pipeline")) {
                         repository.setJson(HttpUtils.getJsonFromJenkins(repository.getJenkinsFileContent()));
                     }
                     repositoryList.add(repository);
@@ -134,7 +134,8 @@ public class GithubRepositoryQuery extends RepositoryQuery {
                 InputStream in = new URL(downloadUrl).openStream();
 
                 try {
-                    return IOUtils.toString(in);
+                    String fileContent = IOUtils.toString(in);
+                    return fileContent;
                 } finally {
                     IOUtils.closeQuietly(in);
                 }

@@ -1,6 +1,8 @@
 package com.uic.atse.mapper;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.uic.atse.model.Example;
 import com.uic.atse.model.Pipeline;
 import org.apache.log4j.Logger;
@@ -15,8 +17,11 @@ public class JsonJavaMapper {
         Pipeline p=new Pipeline();
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
-                // Pipeline pipe = objectMapper.readValue(new File("D:\\UIC\\Sem 2\\CS540- Advanced Software Engineering\\Course Project\\GIT\\2\\jenkins.json"), Pipeline.class);
-                Pipeline pipe = objectMapper.readValue(json, Pipeline.class);
+                Pipeline pipe = objectMapper.readValue(new File("D:\\jenkinsfilesample\\jenkins.json"), Pipeline.class);
+                //Pipeline pipe = objectMapper.readValue(json, Pipeline.class);
+                objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
                 logger.info(pipe.toString());
 
 
@@ -28,4 +33,11 @@ public class JsonJavaMapper {
             }
     }
 
+
+    public static void main(String[] args){
+
+        JsonJavaMapper jsonJavaMapper = new JsonJavaMapper();
+        jsonJavaMapper.readJsonWithObjectMapper("");
+    }
 }
+

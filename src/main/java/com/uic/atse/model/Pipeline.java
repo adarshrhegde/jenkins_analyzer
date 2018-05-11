@@ -27,13 +27,13 @@ public class Pipeline {
     @JsonProperty("stages")
     private List<Stage> stages = null;
     @JsonProperty("post")
-    private Post_ post;
+    private Post post;
     @JsonProperty("environment")
-    private List<Environment_> environment = null;
+    private List<Environment> environment = null;
     @JsonProperty("agent")
-    private Agent_ agent;
+    private Agent agent;
     @JsonProperty("tools")
-    private List<Tool_> tools = null;
+    private List<Tool> tools = null;
     @JsonProperty("options")
     private Options options;
     @JsonProperty("parameters")
@@ -54,42 +54,42 @@ public class Pipeline {
     }
 
     @JsonProperty("post")
-    public Post_ getPost() {
+    public Post getPost() {
         return post;
     }
 
     @JsonProperty("post")
-    public void setPost(Post_ post) {
+    public void setPost(Post post) {
         this.post = post;
     }
 
     @JsonProperty("environment")
-    public List<Environment_> getEnvironment() {
+    public List<Environment> getEnvironment() {
         return environment;
     }
 
     @JsonProperty("environment")
-    public void setEnvironment(List<Environment_> environment) {
+    public void setEnvironment(List<Environment> environment) {
         this.environment = environment;
     }
 
     @JsonProperty("agent")
-    public Agent_ getAgent() {
+    public Agent getAgent() {
         return agent;
     }
 
     @JsonProperty("agent")
-    public void setAgent(Agent_ agent) {
+    public void setAgent(Agent agent) {
         this.agent = agent;
     }
 
     @JsonProperty("tools")
-    public List<Tool_> getTools() {
+    public List<Tool> getTools() {
         return tools;
     }
 
     @JsonProperty("tools")
-    public void setTools(List<Tool_> tools) {
+    public void setTools(List<Tool> tools) {
         this.tools = tools;
     }
 

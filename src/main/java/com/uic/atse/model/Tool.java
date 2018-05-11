@@ -21,7 +21,7 @@ public class Tool {
     @JsonProperty("key")
     private String key;
     @JsonProperty("value")
-    private Value____ value;
+    private Value value;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -36,12 +36,12 @@ public class Tool {
     }
 
     @JsonProperty("value")
-    public Value____ getValue() {
+    public Value getValue() {
         return value;
     }
 
     @JsonProperty("value")
-    public void setValue(Value____ value) {
+    public void setValue(Value value) {
         this.value = value;
     }
 

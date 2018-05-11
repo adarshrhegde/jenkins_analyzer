@@ -22,7 +22,7 @@ public class Option {
     @JsonProperty("name")
     private String name;
     @JsonProperty("arguments")
-    private List<Argument______> arguments = null;
+    private List<Argument> arguments = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -37,12 +37,12 @@ public class Option {
     }
 
     @JsonProperty("arguments")
-    public List<Argument______> getArguments() {
+    public List<Argument> getArguments() {
         return arguments;
     }
 
     @JsonProperty("arguments")
-    public void setArguments(List<Argument______> arguments) {
+    public void setArguments(List<Argument> arguments) {
         this.arguments = arguments;
     }
 

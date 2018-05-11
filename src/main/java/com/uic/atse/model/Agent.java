@@ -22,7 +22,7 @@ public class Agent {
     @JsonProperty("type")
     private String type;
     @JsonProperty("arguments")
-    private List<Argument_> arguments = null;
+    private List<Argument> arguments = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -37,12 +37,12 @@ public class Agent {
     }
 
     @JsonProperty("arguments")
-    public List<Argument_> getArguments() {
+    public List<Argument> getArguments() {
         return arguments;
     }
 
     @JsonProperty("arguments")
-    public void setArguments(List<Argument_> arguments) {
+    public void setArguments(List<Argument> arguments) {
         this.arguments = arguments;
     }
 

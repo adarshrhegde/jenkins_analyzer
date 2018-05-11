@@ -21,7 +21,7 @@ public class Condition_ {
     @JsonProperty("condition")
     private String condition;
     @JsonProperty("branch")
-    private Branch_ branch;
+    private Branch branch;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -36,12 +36,12 @@ public class Condition_ {
     }
 
     @JsonProperty("branch")
-    public Branch_ getBranch() {
+    public Branch getBranch() {
         return branch;
     }
 
     @JsonProperty("branch")
-    public void setBranch(Branch_ branch) {
+    public void setBranch(Branch branch) {
         this.branch = branch;
     }
 

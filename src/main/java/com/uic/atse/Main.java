@@ -38,17 +38,17 @@ public class Main {
             //System.out.println(.get(10));
             List<Repository> repositories = repositoryService.getQueryResult();
 
-            FileOutputStream fo = new FileOutputStream(new File("D:\\UIC\\Sem 2\\CS540- Advanced Software Engineering\\Course Project\\jenkins.txt"));
+            /*FileOutputStream fo = new FileOutputStream(new File("D:\\UIC\\Sem 2\\CS540- Advanced Software Engineering\\Course Project\\jenkins.txt"));
             System.out.println(repositories.size());
 
-            /*repositories.stream().forEach((repo) -> {
+            repositories.stream().forEach((repo) -> {
                         System.out.println(repo.getJenkinsFileContent());
                         System.out.println();
                         System.out.println();
                     });*/
             int d=0;
             int s=0;
-            repositories.stream().forEach((repo) -> {
+            /*repositories.stream().forEach((repo) -> {
                 try {
 
                     if(repo.getJenkinsFileContent().startsWith("pipeline")){
@@ -67,10 +67,14 @@ public class Main {
 
             fo.flush();
             fo.close();
-
+*/
             JsonJavaMapper json1 = new JsonJavaMapper();
 
-            List<Pipeline> pipelines=repositories.stream().filter(repository->null!=repository.getJson()).map((repo)-> {
+            //repositories.stream()
+            //        .forEach(System.out::println);
+
+            List<Pipeline> pipelines=repositories.stream()
+                    .filter(repository->null!=repository.getJson()).map((repo)-> {
                 Pipeline pipe= null;
                 try {
                     System.out.println(repo.getJson().toString());
@@ -89,9 +93,9 @@ public class Main {
 
         } catch (PipelineAnalyzerException e) {
             logger.fatal("Exception occurred", e);
-        } catch (IOException e) {
+        } /*catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
             //call();
 
