@@ -398,5 +398,37 @@ public class PipelineAnalyzerImpl {
         System.out.println(triggerCount.toString());
         System.out.println(stagesCount.toString());
 
+        int stagesMean=getMean(stagesCount);
+        int triggerMean=getMean(triggerCount);
+        int x=0,y=0,num=0,sumX=0,sumY=0;
+        double similarity=0;
+        for(int i=0;i<stagesCount.size();i++)
+        {
+            x=(stagesCount.get(i)-stagesMean);
+            y=(triggerCount.get(i)-triggerMean);
+            num=(x*y)+num;
+            sumX=sumX+(x*x);
+            sumY=sumY+(y*y);
+
+        }
+        similarity=num/((Math.pow(sumX,0.5))*(Math.pow(sumY,0.5)));
+
+
+
+
+
+
+    }
+
+    /** Calculates mean of the passed List<Integer>
+     * */
+    public int getMean(List<Integer> list){
+        int mean=0;
+        int temp=0;
+        for (int i=0;i<list.size();i++){
+            temp=list.get(i)+temp;
+        }
+        mean=temp/list.size();
+        return mean;
     }
 }

@@ -17,6 +17,7 @@
     <orderEntry type="library" name="Gradle: com.googlecode.json-simple:json-simple:1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.jsonschema2pojo:jsonschema2pojo-scalagen:0.5.1" level="project" />
     <orderEntry type="library" name="Gradle: commons-io:commons-io:2.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.4" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.4.9" level="project" />
     <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.10" level="project" />
@@ -25,7 +26,6 @@
     <orderEntry type="library" name="Gradle: org.scala-lang:scala-library:2.11.6" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.javaparser:javaparser:1.0.10" level="project" />
     <orderEntry type="library" name="Gradle: com.sun.codemodel:codemodel:2.6" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.5" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.moshi:moshi:1.5.0" level="project" />
     <orderEntry type="library" name="Gradle: commons-lang:commons-lang:2.6" level="project" />
@@ -44,14 +44,5 @@
     <orderEntry type="library" name="Gradle: org.json:json:20080701" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.13.0" level="project" />
     <orderEntry type="library" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.13" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../resources" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
   </component>
 </module>

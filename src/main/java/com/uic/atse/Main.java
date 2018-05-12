@@ -50,7 +50,9 @@ public class Main {
 
             System.out.println("# of pipelines"+pipelines.size());
             PipelineAnalyzerImpl pipelineAnalyzer = new PipelineAnalyzerImpl(pipelines);
-            pipelineAnalyzer.execute();
+
+
+        pipelineAnalyzer.execute();
 
 
         } catch (PipelineAnalyzerException e) {

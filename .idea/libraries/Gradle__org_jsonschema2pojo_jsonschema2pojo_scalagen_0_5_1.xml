@@ -3,11 +3,13 @@
     <CLASSES>
       <root url="jar://D:/caches/modules-2/files-2.1/org.jsonschema2pojo/jsonschema2pojo-scalagen/0.5.1/fb0e573a6050d7c629d64d2a4426e514b2cae9d5/jsonschema2pojo-scalagen-0.5.1.jar!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsonschema2pojo/jsonschema2pojo-scalagen/0.5.1/fb0e573a6050d7c629d64d2a4426e514b2cae9d5/jsonschema2pojo-scalagen-0.5.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../caches/modules-2/files-2.1/org.jsonschema2pojo/jsonschema2pojo-scalagen/0.5.1/fb0e573a6050d7c629d64d2a4426e514b2cae9d5/jsonschema2pojo-scalagen-0.5.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="jar://D:/caches/modules-2/files-2.1/org.jsonschema2pojo/jsonschema2pojo-scalagen/0.5.1/3d4f58ecc025f9e3bac7c1f8703019ba623cb924/jsonschema2pojo-scalagen-0.5.1-sources.jar!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsonschema2pojo/jsonschema2pojo-scalagen/0.5.1/3d4f58ecc025f9e3bac7c1f8703019ba623cb924/jsonschema2pojo-scalagen-0.5.1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../caches/modules-2/files-2.1/org.jsonschema2pojo/jsonschema2pojo-scalagen/0.5.1/3d4f58ecc025f9e3bac7c1f8703019ba623cb924/jsonschema2pojo-scalagen-0.5.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
