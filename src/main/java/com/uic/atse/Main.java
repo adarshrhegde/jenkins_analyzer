@@ -52,8 +52,9 @@ public class Main {
             PipelineAnalyzerImpl pipelineAnalyzer = new PipelineAnalyzerImpl(pipelines);
             pipelineAnalyzer.execute();
 
+
         } catch (PipelineAnalyzerException e) {
-            logger.fatal("Exception occurred", e);
+            //logger.fatal("Exception occurred", e);
         }
 
     }

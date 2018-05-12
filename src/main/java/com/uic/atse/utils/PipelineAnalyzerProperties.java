@@ -34,6 +34,8 @@ public class PipelineAnalyzerProperties extends Properties {
 
     private String jenkinsURL;
 
+    private String outputDirectory;
+
     @Override
     public synchronized void load(InputStream inStream) throws IOException {
 
@@ -49,6 +51,7 @@ public class PipelineAnalyzerProperties extends Properties {
         this.githubUserAgent = (String) get("githubUserAgent");
         this.githubSearchType = (String) get("githubSearchType");
         this.jenkinsURL = (String) get("jenkinsURL");
+        this.outputDirectory = (String) get("outputDirectory");
 
     }
 
@@ -112,6 +115,10 @@ public class PipelineAnalyzerProperties extends Properties {
         return jenkinsURL;
     }
 
+    public String getOutputDirectory() {
+        return outputDirectory;
+    }
+
     @Override
     public String toString() {
         return "PipelineAnalyzerProperties{" +
@@ -124,6 +131,7 @@ public class PipelineAnalyzerProperties extends Properties {
                 ", githubUserAgent='" + githubUserAgent + '\'' +
                 ", githubAuthorization='" + githubAuthorization + '\'' +
                 ", jenkinsURL='" + jenkinsURL + '\'' +
+                ", outputDirectory='" + outputDirectory + '\'' +
                 '}';
     }
 }
