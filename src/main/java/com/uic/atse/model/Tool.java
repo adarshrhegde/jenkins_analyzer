@@ -60,4 +60,23 @@ public class Tool {
         return new ToStringBuilder(this).append("key", key).append("value", value).append("additionalProperties", additionalProperties).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tool tool = (Tool) o;
+
+        if (key != null ? !key.equals(tool.key) : tool.key != null) return false;
+        if (value != null ? !value.equals(tool.value) : tool.value != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(tool.additionalProperties) : tool.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = key != null ? key.hashCode() : 0;
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

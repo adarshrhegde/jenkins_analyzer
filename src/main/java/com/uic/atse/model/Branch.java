@@ -61,4 +61,23 @@ public class Branch {
         return new ToStringBuilder(this).append("name", name).append("steps", steps).append("additionalProperties", additionalProperties).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Branch branch = (Branch) o;
+
+        if (name != null ? !name.equals(branch.name) : branch.name != null) return false;
+        if (steps != null ? !steps.equals(branch.steps) : branch.steps != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(branch.additionalProperties) : branch.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (steps != null ? steps.hashCode() : 0);
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

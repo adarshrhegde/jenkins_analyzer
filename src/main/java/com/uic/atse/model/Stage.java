@@ -126,4 +126,33 @@ public class Stage {
         return new ToStringBuilder(this).append("name", name).append("branches", branches).append("agent", agent).append("when", when).append("post", post).append("tools", tools).append("environment", environment).append("additionalProperties", additionalProperties).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Stage stage = (Stage) o;
+
+        if (name != null ? !name.equals(stage.name) : stage.name != null) return false;
+        if (branches != null ? !branches.equals(stage.branches) : stage.branches != null) return false;
+        if (agent != null ? !agent.equals(stage.agent) : stage.agent != null) return false;
+        if (when != null ? !when.equals(stage.when) : stage.when != null) return false;
+        if (post != null ? !post.equals(stage.post) : stage.post != null) return false;
+        if (tools != null ? !tools.equals(stage.tools) : stage.tools != null) return false;
+        if (environment != null ? !environment.equals(stage.environment) : stage.environment != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(stage.additionalProperties) : stage.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (branches != null ? branches.hashCode() : 0);
+        result = 31 * result + (agent != null ? agent.hashCode() : 0);
+        result = 31 * result + (when != null ? when.hashCode() : 0);
+        result = 31 * result + (post != null ? post.hashCode() : 0);
+        result = 31 * result + (tools != null ? tools.hashCode() : 0);
+        result = 31 * result + (environment != null ? environment.hashCode() : 0);
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

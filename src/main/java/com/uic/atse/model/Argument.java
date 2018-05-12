@@ -79,4 +79,25 @@ public class Argument {
         return new ToStringBuilder(this).append("key", key).append("value", value).append("isLiteral", isLiteral).append("additionalProperties", additionalProperties).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Argument argument = (Argument) o;
+
+        if (key != null ? !key.equals(argument.key) : argument.key != null) return false;
+        if (value != null ? !value.equals(argument.value) : argument.value != null) return false;
+        if (isLiteral != null ? !isLiteral.equals(argument.isLiteral) : argument.isLiteral != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(argument.additionalProperties) : argument.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = key != null ? key.hashCode() : 0;
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (isLiteral != null ? isLiteral.hashCode() : 0);
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

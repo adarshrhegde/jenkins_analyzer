@@ -48,4 +48,21 @@ public class Triggers {
         return new ToStringBuilder(this).append("triggers", triggers).append("additionalProperties", additionalProperties).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Triggers triggers1 = (Triggers) o;
+
+        if (triggers != null ? !triggers.equals(triggers1.triggers) : triggers1.triggers != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(triggers1.additionalProperties) : triggers1.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = triggers != null ? triggers.hashCode() : 0;
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

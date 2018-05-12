@@ -61,4 +61,23 @@ public class Option {
         return new ToStringBuilder(this).append("name", name).append("arguments", arguments).append("additionalProperties", additionalProperties).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Option option = (Option) o;
+
+        if (name != null ? !name.equals(option.name) : option.name != null) return false;
+        if (arguments != null ? !arguments.equals(option.arguments) : option.arguments != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(option.additionalProperties) : option.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (arguments != null ? arguments.hashCode() : 0);
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

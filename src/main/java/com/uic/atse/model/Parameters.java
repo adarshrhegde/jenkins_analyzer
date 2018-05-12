@@ -48,4 +48,21 @@ public class Parameters {
         return new ToStringBuilder(this).append("parameters", parameters).append("additionalProperties", additionalProperties).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Parameters that = (Parameters) o;
+
+        if (parameters != null ? !parameters.equals(that.parameters) : that.parameters != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(that.additionalProperties) : that.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = parameters != null ? parameters.hashCode() : 0;
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

@@ -48,4 +48,21 @@ public class Options {
         return new ToStringBuilder(this).append("options", options).append("additionalProperties", additionalProperties).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Options options1 = (Options) o;
+
+        if (options != null ? !options.equals(options1.options) : options1.options != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(options1.additionalProperties) : options1.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = options != null ? options.hashCode() : 0;
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

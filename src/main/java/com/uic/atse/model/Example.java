@@ -139,4 +139,35 @@ public class Example {
         return new ToStringBuilder(this).append("stages", stages).append("post", post).append("environment", environment).append("agent", agent).append("tools", tools).append("options", options).append("parameters", parameters).append("triggers", triggers).append("additionalProperties", additionalProperties).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Example example = (Example) o;
+
+        if (stages != null ? !stages.equals(example.stages) : example.stages != null) return false;
+        if (post != null ? !post.equals(example.post) : example.post != null) return false;
+        if (environment != null ? !environment.equals(example.environment) : example.environment != null) return false;
+        if (agent != null ? !agent.equals(example.agent) : example.agent != null) return false;
+        if (tools != null ? !tools.equals(example.tools) : example.tools != null) return false;
+        if (options != null ? !options.equals(example.options) : example.options != null) return false;
+        if (parameters != null ? !parameters.equals(example.parameters) : example.parameters != null) return false;
+        if (triggers != null ? !triggers.equals(example.triggers) : example.triggers != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(example.additionalProperties) : example.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = stages != null ? stages.hashCode() : 0;
+        result = 31 * result + (post != null ? post.hashCode() : 0);
+        result = 31 * result + (environment != null ? environment.hashCode() : 0);
+        result = 31 * result + (agent != null ? agent.hashCode() : 0);
+        result = 31 * result + (tools != null ? tools.hashCode() : 0);
+        result = 31 * result + (options != null ? options.hashCode() : 0);
+        result = 31 * result + (parameters != null ? parameters.hashCode() : 0);
+        result = 31 * result + (triggers != null ? triggers.hashCode() : 0);
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

@@ -48,4 +48,21 @@ public class Post {
         return new ToStringBuilder(this).append("conditions", conditions).append("additionalProperties", additionalProperties).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Post post = (Post) o;
+
+        if (conditions != null ? !conditions.equals(post.conditions) : post.conditions != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(post.additionalProperties) : post.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = conditions != null ? conditions.hashCode() : 0;
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

@@ -41,4 +41,21 @@ public class Json {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Json json = (Json) o;
+
+        if (pipeline != null ? !pipeline.equals(json.pipeline) : json.pipeline != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(json.additionalProperties) : json.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = pipeline != null ? pipeline.hashCode() : 0;
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

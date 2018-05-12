@@ -147,4 +147,37 @@ public class Pipeline {
                 ", additionalProperties=" + additionalProperties +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Pipeline pipeline = (Pipeline) o;
+
+        if (stages != null ? !stages.equals(pipeline.stages) : pipeline.stages != null) return false;
+        if (post != null ? !post.equals(pipeline.post) : pipeline.post != null) return false;
+        if (environment != null ? !environment.equals(pipeline.environment) : pipeline.environment != null)
+            return false;
+        if (agent != null ? !agent.equals(pipeline.agent) : pipeline.agent != null) return false;
+        if (tools != null ? !tools.equals(pipeline.tools) : pipeline.tools != null) return false;
+        if (options != null ? !options.equals(pipeline.options) : pipeline.options != null) return false;
+        if (parameters != null ? !parameters.equals(pipeline.parameters) : pipeline.parameters != null) return false;
+        if (triggers != null ? !triggers.equals(pipeline.triggers) : pipeline.triggers != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(pipeline.additionalProperties) : pipeline.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = stages != null ? stages.hashCode() : 0;
+        result = 31 * result + (post != null ? post.hashCode() : 0);
+        result = 31 * result + (environment != null ? environment.hashCode() : 0);
+        result = 31 * result + (agent != null ? agent.hashCode() : 0);
+        result = 31 * result + (tools != null ? tools.hashCode() : 0);
+        result = 31 * result + (options != null ? options.hashCode() : 0);
+        result = 31 * result + (parameters != null ? parameters.hashCode() : 0);
+        result = 31 * result + (triggers != null ? triggers.hashCode() : 0);
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

@@ -60,4 +60,23 @@ public class Value {
         return new ToStringBuilder(this).append("isLiteral", isLiteral).append("value", value).append("additionalProperties", additionalProperties).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Value value1 = (Value) o;
+
+        if (isLiteral != null ? !isLiteral.equals(value1.isLiteral) : value1.isLiteral != null) return false;
+        if (value != null ? !value.equals(value1.value) : value1.value != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(value1.additionalProperties) : value1.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = isLiteral != null ? isLiteral.hashCode() : 0;
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }

@@ -54,4 +54,23 @@ public class Data {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Data data = (Data) o;
+
+        if (result != null ? !result.equals(data.result) : data.result != null) return false;
+        if (json != null ? !json.equals(data.json) : data.json != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(data.additionalProperties) : data.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result1 = result != null ? result.hashCode() : 0;
+        result1 = 31 * result1 + (json != null ? json.hashCode() : 0);
+        result1 = 31 * result1 + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result1;
+    }
 }

@@ -60,4 +60,23 @@ public class Condition_ {
         return new ToStringBuilder(this).append("condition", condition).append("branch", branch).append("additionalProperties", additionalProperties).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Condition_ that = (Condition_) o;
+
+        if (condition != null ? !condition.equals(that.condition) : that.condition != null) return false;
+        if (branch != null ? !branch.equals(that.branch) : that.branch != null) return false;
+        return additionalProperties != null ? additionalProperties.equals(that.additionalProperties) : that.additionalProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = condition != null ? condition.hashCode() : 0;
+        result = 31 * result + (branch != null ? branch.hashCode() : 0);
+        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
+        return result;
+    }
 }
