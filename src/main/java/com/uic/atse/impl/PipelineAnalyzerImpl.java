@@ -4,8 +4,12 @@ package com.uic.atse.impl;
  Class for analyzing pipeline objects
 */
 
+import com.google.gson.Gson;
 import com.uic.atse.model.*;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,7 +33,6 @@ public class PipelineAnalyzerImpl {
         // getting post conditions blocks at pipeline level
         for(Pipeline pipeline : pipelines)
         {
-            System.out.println("getting post conditions for a pipeline ");
             if(null != pipeline && null != pipeline.getPost() && null != pipeline.getPost().getConditions()){
                 List<Condition_> conditions = pipeline.getPost().getConditions();
                 for (Condition_ condition : conditions){
@@ -53,6 +56,8 @@ public class PipelineAnalyzerImpl {
             }
         }
         System.out.print("Most frequent post condition blocks"+condition_freq.toString());
+        convertToJson("frequentPostConditions",condition_freq);
+
     }
 
     /**
@@ -82,6 +87,8 @@ public class PipelineAnalyzerImpl {
             }
         }
         System.out.println("Agent types and their frequencies across different pipelines "+agent_freq.toString());
+        convertToJson("frequentAgentTypes",agent_freq);
+
     }
 
     /**
@@ -108,7 +115,9 @@ public class PipelineAnalyzerImpl {
                     }
                 }
             }
-        System.out.println("Agent types and their frequencies across different pipelines "+step_freq.toString());
+        System.out.println("Steps types and their frequencies across different pipelines "+step_freq.toString());
+        convertToJson("frequentStepTypes",step_freq);
+
     }
 
     /**
@@ -142,17 +151,26 @@ public class PipelineAnalyzerImpl {
             }
         }
         System.out.print("Most frequent environment variables"+env_freq.toString());
+        convertToJson("frequentEnvVarTypes", env_freq);
+    }
+
+    public void convertToJson(String filename ,HashMap<String,Integer> result){
+        Gson gson = new Gson();
+        String outputJson = gson.toJson(result);
+        try {
+            FileUtils.writeStringToFile(new File(filename+".json"),outputJson,"UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      *  Perform analysis on pipeline objects
      */
     public void execute() {
-//        frequentPostConditions();
-//        frequentAgentTypes();
-//        frequentStepTypes();
+        frequentPostConditions();
+        frequentAgentTypes();
+        frequentStepTypes();
         frequentEnvVarTypes();
-
-
     }
 }
