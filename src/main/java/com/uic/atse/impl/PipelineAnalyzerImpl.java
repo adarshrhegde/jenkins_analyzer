@@ -54,6 +54,8 @@ public class PipelineAnalyzerImpl {
         frequentStageTypes();
         commonCommandsInSteps();
         frequentAgentArgumentsTypes();
+        stagesStepsCorrelation();
+
     }
 
     /**
@@ -386,7 +388,7 @@ public class PipelineAnalyzerImpl {
         System.out.println(triggerCount.toString());
         System.out.println(stagesCount.toString());
 
-        similarity_score=getCorelationCoefficient(stagesCount,triggerCount);
+        similarity_score=getCorrelationCoefficient(stagesCount,triggerCount);
 
 
     }
@@ -477,6 +479,48 @@ public class PipelineAnalyzerImpl {
 
     }
 
+    /**
+     * Finding the correlation between the number of stages and steps in a pipeline
+     * @return
+     */
+    public double stagesStepsCorrelation() {
+
+        logger.info("Find the correlation between number of stages and steps in jenkins files");
+        System.out.println("getting stagesStepsCorrelation");
+
+        List<Integer> stagesCount = new ArrayList<>();
+        List<Integer> stepsCount = new ArrayList<>();
+        double corrCoefficient = 0.0;
+
+        // getting stages and steps count at pipeline level
+
+        for (Pipeline pipeline : pipelines) {
+            if (null != pipeline && null != pipeline.getStages()) {
+                int numSteps = 0;
+                for (Stage stage : pipeline.getStages()) {
+                    if (null != stage && null != stage.getBranches()) {
+                        for (Branch branch : stage.getBranches()) {
+                            if (null != branch && null != branch.getSteps()) {
+                                numSteps = numSteps + new Integer(branch.getSteps().size());
+                            } else {
+                                numSteps = numSteps + new Integer(0);
+                            }
+                        }
+                    }
+                }
+                stepsCount.add(numSteps);
+                if (null != pipeline.getStages()) {
+                    stagesCount.add(new Integer(pipeline.getStages().size()));
+                } else {
+                    stagesCount.add(new Integer(0));
+                }
+            }
+        }
+        corrCoefficient=getCorrelationCoefficient(stagesCount,stepsCount);
+        System.out.println("stagesStepsCorrelation "+corrCoefficient);
+        return 0;
+    }
+
 
     /** Calculates mean of the passed List<Integer>
      * */
@@ -492,23 +536,23 @@ public class PipelineAnalyzerImpl {
 
 
     /**Find the co-relation coefficient for two integer lists*/
-    public double getCorelationCoefficient(List<Integer> stagesCount,List<Integer> triggerCount){
+    public double getCorrelationCoefficient(List<Integer> list1,List<Integer> list2){
 
-        double stagesMean=getMean(stagesCount);
-        double triggerMean=getMean(triggerCount);
+        double stagesMean=getMean(list1);
+        double triggerMean=getMean(list2);
         double x=0,y=0,num=0,sumX=0,sumY=0;
-        double similarity=0;
-        for(int i=0;i<stagesCount.size();i++)
+        double corrCoefficient=0;
+        for(int i=0;i<list1.size();i++)
         {
-            x=(stagesCount.get(i)-stagesMean);
-            y=(triggerCount.get(i)-triggerMean);
+            x=(list1.get(i)-stagesMean);
+            y=(list2.get(i)-triggerMean);
             num=(x*y)+num;
             sumX=sumX+(x*x);
             sumY=sumY+(y*y);
 
         }
-        similarity=num/((Math.pow(sumX,0.5))*(Math.pow(sumY,0.5)));
-        return similarity;
+        corrCoefficient=num/((Math.pow(sumX,0.5))*(Math.pow(sumY,0.5)));
+        return corrCoefficient;
     }
 
 
