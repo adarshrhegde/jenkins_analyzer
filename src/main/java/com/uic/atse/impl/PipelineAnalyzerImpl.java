@@ -611,22 +611,31 @@ public class PipelineAnalyzerImpl {
         Collections.sort(shList);
         Collections.sort(batList);
 
-        processList(shList);
-        processList(batList);
+        processList(shList,"LinuxCommands");
+        processList(batList,"WindowsCommands");
 
 
     }
     /**Process a list of commands and classifies as per tasks*/
-    public void processList(List<String> list){
+    public void processList(List<String> cmdlist,String fileType){
         String cmd;
-        List<String> commandTypes=new ArrayList<String>();
+        HashMap<String,Integer> commandTypes=new HashMap<>();
+        int count=0;
 
-        for(String string:list){
-            cmd=string.split(" ")[0];
-            if(!commandTypes.contains(cmd))
-                commandTypes.add(cmd);
+        for(String command:cmdlist){
+            cmd=command.split(" ")[0];
+            if(commandTypes.containsKey(cmd)){
+                count=commandTypes.get(cmd);
+                commandTypes.put(cmd,count+1);
+            }
+            else
+            {
+                commandTypes.put(cmd,1);
+            }
         }
-        System.out.println("Cmd types"+commandTypes.toString());
+        System.out.println("Cmd types "+fileType+": "+commandTypes.toString());
+        convertToJsonFile(fileType,commandTypes);
+
     }
 
 }
