@@ -359,10 +359,11 @@ public class PipelineAnalyzerImpl {
 
     }
 
-    /**Create a method that finds correlation between triggers and number of stages*/
-    public void triggerStagesCorrelation() {
+    /**Create a method that finds corealtion between triggers and number of stages*/
+    public void triggerStagesCorelation() {
         List<Integer> triggerCount = new ArrayList<Integer>();
         List<Integer> stagesCount = new ArrayList<Integer>();
+        double similarity_score;
         System.out.println("triggerStagesCorelation");
 
 
@@ -385,20 +386,8 @@ public class PipelineAnalyzerImpl {
         System.out.println(triggerCount.toString());
         System.out.println(stagesCount.toString());
 
-        int stagesMean=getMean(stagesCount);
-        int triggerMean=getMean(triggerCount);
-        int x=0,y=0,num=0,sumX=0,sumY=0;
-        double similarity=0;
-        for(int i=0;i<stagesCount.size();i++)
-        {
-            x=(stagesCount.get(i)-stagesMean);
-            y=(triggerCount.get(i)-triggerMean);
-            num=(x*y)+num;
-            sumX=sumX+(x*x);
-            sumY=sumY+(y*y);
+        similarity_score=getCorelationCoefficient(stagesCount,triggerCount);
 
-        }
-        similarity=num/((Math.pow(sumX,0.5))*(Math.pow(sumY,0.5)));
 
     }
 
@@ -488,11 +477,12 @@ public class PipelineAnalyzerImpl {
 
     }
 
+
     /** Calculates mean of the passed List<Integer>
      * */
-    public int getMean(List<Integer> list){
-        int mean=0;
-        int temp=0;
+    public double getMean(List<Integer> list){
+        double mean=0;
+        double temp=0;
         for (int i=0;i<list.size();i++){
             temp=list.get(i)+temp;
         }
@@ -501,17 +491,44 @@ public class PipelineAnalyzerImpl {
     }
 
 
+    /**Find the co-relation coefficient for two integer lists*/
+    public double getCorelationCoefficient(List<Integer> stagesCount,List<Integer> triggerCount){
+
+        double stagesMean=getMean(stagesCount);
+        double triggerMean=getMean(triggerCount);
+        double x=0,y=0,num=0,sumX=0,sumY=0;
+        double similarity=0;
+        for(int i=0;i<stagesCount.size();i++)
+        {
+            x=(stagesCount.get(i)-stagesMean);
+            y=(triggerCount.get(i)-triggerMean);
+            num=(x*y)+num;
+            sumX=sumX+(x*x);
+            sumY=sumY+(y*y);
+
+        }
+        similarity=num/((Math.pow(sumX,0.5))*(Math.pow(sumY,0.5)));
+        return similarity;
+    }
+
+
+
+
     /** Most common  commands in types*/
     public void commonCommandsInSteps() {
         List<String> shList=new ArrayList<String>();
         List<String> batList=new ArrayList<String>();
-        List<String> gitList=new ArrayList<String>();
+        List<String> allCommandList=new ArrayList<String>();
+        HashMap<String, String> commands = new HashMap<>();
+
 
         for (Pipeline pipeline : pipelines) {
             if (pipeline != null) {
                 List<Stage> stageList=pipeline.getStages();
                 if(stageList!=null){
                     for(Stage stage:stageList){
+                        System.out.println("Stage name:"+stage.getName());
+                        String stageName=stage.getName();
                         List<Branch> branchList=stage.getBranches();
                         if(branchList!=null){
                             for(Branch branch:branchList){
@@ -519,22 +536,23 @@ public class PipelineAnalyzerImpl {
                                 if(stepList!=null){
                                     for(Step step: stepList){
                                         String name=step.getName();  // name of step
-                                            List<Argument> argsList = step.getArguments();
-                                            if (argsList != null) {
-                                                for (Argument argument : argsList) {
-                                                    Value argsValue = argument.getValue();
-                                                    String key = argument.getKey();  //key
-                                                    if (argsValue != null) {
-                                                        String value = argsValue.getValue();//value
-                                                        if(name.equals("sh"))
-                                                            shList.add(value);
-                                                        else if(name.equals("bat"))
-                                                            batList.add(value);
-                                                        else if(name.equals("git"))
-                                                            gitList.add(value);
-                                                    }
+                                        List<Argument> argsList = step.getArguments();
+                                        if (argsList != null) {
+                                            for (Argument argument : argsList) {
+                                                Value argsValue = argument.getValue();
+                                                String key = argument.getKey();  //key
+                                                if (argsValue != null) {
+                                                    String value = argsValue.getValue();//value
+                                                    allCommandList.add(value);
+                                                    commands.put(stageName,value);
+                                                    if(name.equals("sh"))
+                                                        shList.add(value);
+                                                    else if(name.equals("bat"))
+                                                        batList.add(value);
+
                                                 }
                                             }
+                                        }
 
                                     }
                                 }
@@ -547,12 +565,25 @@ public class PipelineAnalyzerImpl {
             }
         }
         Collections.sort(shList);
-        System.out.print(shList.toString());
         Collections.sort(batList);
-        System.out.print(batList.toString());
-        Collections.sort(gitList);
-        System.out.print(gitList.toString());
 
+        processList(shList);
+        processList(batList);
+
+
+    }
+    /**Process a list of commands and classifies as per tasks*/
+    public void processList(List<String> list){
+        String cmd;
+        List<String> commandTypes=new ArrayList<String>();
+
+        for(String string:list){
+            cmd=string.split(" ")[0];
+            System.out.print(cmd);
+            if(!commandTypes.contains(cmd))
+                commandTypes.add(cmd);
+        }
+        System.out.println("Cmd types"+commandTypes.toString());
     }
 
 }
