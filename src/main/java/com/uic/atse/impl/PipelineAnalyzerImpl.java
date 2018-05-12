@@ -13,8 +13,10 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,8 @@ public class PipelineAnalyzerImpl {
     // List of pipeline objects
 
     List<Pipeline> pipelines;
+    int maven=0,jdk=0,gradle=0;
+
 
     Logger logger = Logger.getLogger(PipelineAnalyzerImpl.class);
 
@@ -45,6 +49,15 @@ public class PipelineAnalyzerImpl {
         frequentEnvVarTypes();
         frequentUserDefinedParameters();
         analyzeUserDefinedParameters();
+
+        /** Q1 Most used Tools in Jenkins pipelines **/
+        System.out.println("Most Used Tools  in Jenkins pipelines : "+mostUsedTools());
+
+        /** Q2 Least used Tools in Jenkins Pipelines **/
+        System.out.println("Least used tool in Jenkins pipelines : "+leastUsedTools());
+
+        /** Q3 Find relation between triggers and number of stages */
+        System.out.println("Relation between Triggers and steps: "+triggerStagesCorelation());
 
     }
 
@@ -259,4 +272,131 @@ public class PipelineAnalyzerImpl {
             logger.error(ex);
         }
     }
+
+
+    /**
+     * Finds the most used tool in jenkins pipeline amongst Maven, Gradle and Jdk   **/
+    public String mostUsedTools(){
+        String MostUsedTool=new String();
+
+        System.out.println("Size main:"+pipelines.size());
+        for(int i=0;i<pipelines.size();i++) {
+            if (pipelines.get(i).getTools() != null){
+                System.out.println(pipelines.get(i).getTools().toString());
+                List<Tool> toolList = pipelines.get(i).getTools();
+                if (!toolList.isEmpty()) {
+                    for (Tool tools : toolList) {
+                        if(tools.getKey()!=null){
+                            if(tools.getKey().toString().equals("maven"))
+                                maven++;
+                            else if(tools.getKey().toString().equals("jdk"))
+                                jdk++;
+                            else if(tools.getKey().toString().equals("gradle"))
+                                gradle++;
+                        }
+                    };
+                }
+            }
+        }
+
+
+        if(maven>gradle && maven>jdk)
+            MostUsedTool="maven";
+        else if(gradle>maven && gradle>jdk)
+            MostUsedTool="gradle";
+        else if(jdk>maven && jdk>gradle)
+            MostUsedTool="jdk";
+        else if(maven==jdk)
+            MostUsedTool="maven & jdk";
+        else if(maven==gradle)
+            MostUsedTool="gradle & maven";
+        else if(jdk==gradle)
+            MostUsedTool="jdk & gradle";
+
+        create_json();
+        return MostUsedTool;
+    }
+
+
+    public String leastUsedTools(){
+        String leastUsedTool=new String();
+
+        if(maven<gradle && maven<jdk)
+            leastUsedTool="maven";
+        else if(jdk<gradle && jdk<maven)
+            leastUsedTool="jdk";
+        else if(gradle<jdk && gradle<maven)
+            leastUsedTool="gradle";
+        else if(maven==jdk)
+            leastUsedTool="maven & jdk";
+        else if(maven==gradle)
+            leastUsedTool="gradle & maven";
+        else if(jdk==gradle)
+            leastUsedTool="jdk & gradle";
+
+        return leastUsedTool;
+    }
+
+    /** Create json for tools**/
+    public  void create_json(){
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("maven", maven);
+            obj.put("jdk", jdk);
+            obj.put("gradle", gradle);
+
+            String jsonText = obj.toString();
+            System.out.print(jsonText);
+
+            FileUtils.writeStringToFile(new File(properties.getOutputDirectory()+ "Most Used Tools.json"),jsonText,"utf-8");
+        }
+        catch(IOException i)
+        { PipelineAnalyzerException ex = new PipelineAnalyzerException("Exception while printing json result to file");
+            logger.error(ex);
+
+        }
+        catch(JSONException j){
+            PipelineAnalyzerException ex = new PipelineAnalyzerException("JSONException while writing json result to file");
+            logger.error(ex);
+
+        }
+
+
+    }
+
+    /**Create a method that finds corealtion between triggers and number of stages*/
+    public String triggerStagesCorelation(){
+
+
+        for(Pipeline pipeline:pipelines){
+            System.out.println("Inside TriggerStagesCorelation:"+pipeline.toString());
+            if(pipeline!=null) {
+                Triggers triger = pipeline.getTriggers();
+                if (triger != null){
+                    List<Trigger> triggerList = pipeline.getTriggers().getTriggers();
+                    for (Trigger trigger : triggerList) {
+                        if (trigger != null) {
+                            String name = trigger.getName().toString();
+                            System.out.println("Trigger name: " + name);
+
+                            List<Argument________> listArgs = trigger.getArguments();
+                            if (listArgs != null) {
+                                for (Argument________ args : listArgs) {
+                                    String value = args.getValue().toString();
+                                    System.out.println("Trigger args Value: " + value);
+
+
+                                }
+                                ;
+                            }
+                        }
+                    }
+                    ;
+                }
+            }
+        };
+
+        return "1";
+    }
+
 }
