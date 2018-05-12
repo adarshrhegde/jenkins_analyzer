@@ -360,7 +360,7 @@ public class PipelineAnalyzerImpl {
     }
 
     /**Create a method that finds corealtion between triggers and number of stages*/
-    public void triggerStagesCorelation() {
+    public void triggerStagesCorrelation() {
         List<Integer> triggerCount = new ArrayList<Integer>();
         List<Integer> stagesCount = new ArrayList<Integer>();
         double similarity_score;
@@ -579,7 +579,6 @@ public class PipelineAnalyzerImpl {
 
         for(String string:list){
             cmd=string.split(" ")[0];
-            System.out.print(cmd);
             if(!commandTypes.contains(cmd))
                 commandTypes.add(cmd);
         }
