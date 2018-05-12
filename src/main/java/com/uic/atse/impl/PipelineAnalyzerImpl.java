@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +43,8 @@ public class PipelineAnalyzerImpl {
      *  Perform analysis on pipeline objects
      */
     public void execute() {
+
+
         frequentPostConditions();
         frequentAgentTypes();
         frequentStepTypes();
@@ -50,14 +52,20 @@ public class PipelineAnalyzerImpl {
         frequentUserDefinedParameters();
         analyzeUserDefinedParameters();
 
-        /** Q1 Most used Tools in Jenkins pipelines **/
+
+//Q1 Most used Tools in Jenkins pipelines *
+
         System.out.println("Most Used Tools  in Jenkins pipelines : "+mostUsedTools());
 
-        /** Q2 Least used Tools in Jenkins Pipelines **/
+
+//Q2 Least used Tools in Jenkins Pipelines *
+
         System.out.println("Least used tool in Jenkins pipelines : "+leastUsedTools());
 
-        /** Q3 Find relation between triggers and number of stages */
-        System.out.println("Relation between Triggers and steps: "+triggerStagesCorelation());
+
+//        Q3 Find relation between triggers and number of stages
+
+        triggerStagesCorelation();
 
     }
 
@@ -365,38 +373,30 @@ public class PipelineAnalyzerImpl {
     }
 
     /**Create a method that finds corealtion between triggers and number of stages*/
-    public String triggerStagesCorelation(){
+    public void triggerStagesCorelation() {
+        List<Integer> triggerCount = new ArrayList<Integer>();
+        List<Integer> stagesCount = new ArrayList<Integer>();
+        System.out.println("triggerStagesCorelation");
 
 
-        for(Pipeline pipeline:pipelines){
-            System.out.println("Inside TriggerStagesCorelation:"+pipeline.toString());
-            if(pipeline!=null) {
-                Triggers triger = pipeline.getTriggers();
-                if (triger != null){
+        for (Pipeline pipeline : pipelines) {
+            if (pipeline != null) {
+                List<Stage> stageList = pipeline.getStages();
+                Triggers trigger = pipeline.getTriggers();
+                if (trigger != null) {
                     List<Trigger> triggerList = pipeline.getTriggers().getTriggers();
-                    for (Trigger trigger : triggerList) {
-                        if (trigger != null) {
-                            String name = trigger.getName().toString();
-                            System.out.println("Trigger name: " + name);
-
-                            List<Argument________> listArgs = trigger.getArguments();
-                            if (listArgs != null) {
-                                for (Argument________ args : listArgs) {
-                                    String value = args.getValue().toString();
-                                    System.out.println("Trigger args Value: " + value);
-
-
-                                }
-                                ;
-                            }
-                        }
-                    }
-                    ;
+                    triggerCount.add(new Integer(triggerList.size()));
+                }
+                else{
+                    triggerCount.add(new Integer(0));
+                }
+                if (null != stageList) {
+                    stagesCount.add(new Integer(stageList.size()));
                 }
             }
-        };
+        }
+        System.out.println(triggerCount.toString());
+        System.out.println(stagesCount.toString());
 
-        return "1";
     }
-
 }
