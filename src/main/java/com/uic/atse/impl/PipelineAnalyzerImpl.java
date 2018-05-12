@@ -17,10 +17,7 @@ import org.json.JSONObject;
 import javax.lang.model.element.Name;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PipelineAnalyzerImpl {
 
@@ -44,19 +41,19 @@ public class PipelineAnalyzerImpl {
      *  Perform analysis on pipeline objects
      */
     public void execute() {
-
-
         frequentPostConditions();
         frequentAgentTypes();
         frequentStepTypes();
         frequentEnvVarTypes();
         frequentUserDefinedParameters();
         analyzeUserDefinedParameters();
-        System.out.println("Most Used Tools  in Jenkins pipelines : "+mostUsedTools()); //Q1 Most used Tools in Jenkins pipelines *
-        System.out.println("Least used tool in Jenkins pipelines : "+leastUsedTools()); //Q2 Least used Tools in Jenkins Pipelines *
-        triggerStagesCorelation();              // Q3 Find relation between triggers and number of stages
-        commonCommandsInSteps();                // Q4 most commands used in steps
-
+        frequentWhenConditions();
+        mostUsedTools();
+        leastUsedTools();
+        triggerStagesCorrelation();
+        frequentStageTypes();
+        commonCommandsInSteps();
+        frequentAgentArgumentsTypes();
     }
 
     /**
@@ -362,8 +359,8 @@ public class PipelineAnalyzerImpl {
 
     }
 
-    /**Create a method that finds corealtion between triggers and number of stages*/
-    public void triggerStagesCorelation() {
+    /**Create a method that finds correlation between triggers and number of stages*/
+    public void triggerStagesCorrelation() {
         List<Integer> triggerCount = new ArrayList<Integer>();
         List<Integer> stagesCount = new ArrayList<Integer>();
         System.out.println("triggerStagesCorelation");
@@ -402,6 +399,92 @@ public class PipelineAnalyzerImpl {
 
         }
         similarity=num/((Math.pow(sumX,0.5))*(Math.pow(sumY,0.5)));
+
+    }
+
+    /**
+     * Find the most frequent when conditions types
+     */
+    public void frequentWhenConditions() {
+        logger.info("Analyzing the most frequent when conditions in jenkins files");
+        Map<String, Integer> whenCount = new HashMap<>();
+
+        // getting when conditions at pipeline-stage level
+        for (Pipeline pipeline : pipelines) {
+            if (null != pipeline && null != pipeline.getStages()) {
+                for (Stage stage : pipeline.getStages()) {
+                    System.out.println(stage.toString());
+                    if (null != stage && null != stage.getWhen() && null != stage.getWhen().getConditions()) {
+                        List<Condition> conditions = stage.getWhen().getConditions();
+                        for (Condition condition : conditions) {
+                            Integer freq = whenCount.get(condition.getName());
+                            whenCount.put(condition.getName(), freq == null ? 1 : freq + 1);
+                        }
+                    }
+                }
+            }
+        }
+        System.out.print("Frequent when condition types " + whenCount.toString());
+        convertToJsonFile("frequentWhenConditions", whenCount);
+    }
+
+    /**
+     *  Find the most common used stages in a pipeline
+     */
+    public void frequentStageTypes(){
+        logger.info("Analyzing the most common stages in jenkins files");
+
+        // getting stages at pipeline level
+        Map<String, Integer> stageCount = new HashMap<>();
+
+        for (Pipeline pipeline : pipelines) {
+            if (null != pipeline && null != pipeline.getStages()) {
+                for (Stage stage : pipeline.getStages()) {
+                    if (null != stage && null != stage.getName()) {
+                        Integer freq = stageCount.get(stage.getName());
+                        stageCount.put(stage.getName(), freq == null ? 1 : freq + 1);
+                    }
+                }
+            }
+        }
+        System.out.println("Frequent when condition types " + stageCount.toString());
+        convertToJsonFile("frequentStageTypes", stageCount);
+
+    }
+
+    /**
+     *  Find the most common used types of agent arguments
+     */
+    public void frequentAgentArgumentsTypes(){
+        logger.info("Analyzing the most common agent argument type in jenkins files");
+        HashMap<String, Integer> agentArgumentCount = new HashMap<String, Integer>();
+        System.out.println("getting frequentAgentArgumentsTypes");
+
+        // getting agent blocks at pipeline level
+        for(Pipeline pipeline : pipelines)
+        {
+            if(null != pipeline && null != pipeline.getAgent() && null != pipeline.getAgent().getArguments()){
+                for (Argument arg : pipeline.getAgent().getArguments()){
+                    Integer freq = agentArgumentCount.get(arg.getValue().getValue());
+                    agentArgumentCount.put(arg.getValue().getValue(), freq==null ? 1 : freq + 1);
+                }
+            }
+        }
+        // getting agent blocks at pipeline-stage level
+        for (Pipeline pipeline : pipelines) {
+            if (null != pipeline && null != pipeline.getStages()) {
+                for (Stage stage : pipeline.getStages()) {
+                    if (null != stage && null != stage.getAgent() && null != stage.getAgent().getArguments()) {
+                        for (Argument arg : stage.getAgent().getArguments()){
+                            Integer freq = agentArgumentCount.get(arg.getValue().getValue());
+                            agentArgumentCount.put(arg.getValue().getValue(), freq==null ? 1 : freq + 1);
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("Most common Agent Argument Type across different pipelines "+agentArgumentCount.toString());
+        convertToJsonFile("frequentAgentArgumentsTypes",agentArgumentCount);
 
     }
 
@@ -463,6 +546,13 @@ public class PipelineAnalyzerImpl {
 
             }
         }
+        Collections.sort(shList);
+        System.out.print(shList.toString());
+        Collections.sort(batList);
+        System.out.print(batList.toString());
+        Collections.sort(gitList);
+        System.out.print(gitList.toString());
+
     }
 
 }
