@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import javax.lang.model.element.Name;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,21 +52,10 @@ public class PipelineAnalyzerImpl {
         frequentEnvVarTypes();
         frequentUserDefinedParameters();
         analyzeUserDefinedParameters();
-
-
-//Q1 Most used Tools in Jenkins pipelines *
-
-        System.out.println("Most Used Tools  in Jenkins pipelines : "+mostUsedTools());
-
-
-//Q2 Least used Tools in Jenkins Pipelines *
-
-        System.out.println("Least used tool in Jenkins pipelines : "+leastUsedTools());
-
-
-//        Q3 Find relation between triggers and number of stages
-
-        triggerStagesCorelation();
+        System.out.println("Most Used Tools  in Jenkins pipelines : "+mostUsedTools()); //Q1 Most used Tools in Jenkins pipelines *
+        System.out.println("Least used tool in Jenkins pipelines : "+leastUsedTools()); //Q2 Least used Tools in Jenkins Pipelines *
+        triggerStagesCorelation();              // Q3 Find relation between triggers and number of stages
+        commonCommandsInSteps();                // Q4 most commands used in steps
 
     }
 
@@ -413,11 +403,6 @@ public class PipelineAnalyzerImpl {
         }
         similarity=num/((Math.pow(sumX,0.5))*(Math.pow(sumY,0.5)));
 
-
-
-
-
-
     }
 
     /** Calculates mean of the passed List<Integer>
@@ -431,4 +416,53 @@ public class PipelineAnalyzerImpl {
         mean=temp/list.size();
         return mean;
     }
+
+
+    /** Most common  commands in types*/
+    public void commonCommandsInSteps() {
+        List<String> shList=new ArrayList<String>();
+        List<String> batList=new ArrayList<String>();
+        List<String> gitList=new ArrayList<String>();
+
+        for (Pipeline pipeline : pipelines) {
+            if (pipeline != null) {
+                List<Stage> stageList=pipeline.getStages();
+                if(stageList!=null){
+                    for(Stage stage:stageList){
+                        List<Branch> branchList=stage.getBranches();
+                        if(branchList!=null){
+                            for(Branch branch:branchList){
+                                List<Step> stepList=branch.getSteps();
+                                if(stepList!=null){
+                                    for(Step step: stepList){
+                                        String name=step.getName();  // name of step
+                                            List<Argument> argsList = step.getArguments();
+                                            if (argsList != null) {
+                                                for (Argument argument : argsList) {
+                                                    Value argsValue = argument.getValue();
+                                                    String key = argument.getKey();  //key
+                                                    if (argsValue != null) {
+                                                        String value = argsValue.getValue();//value
+                                                        if(name.equals("sh"))
+                                                            shList.add(value);
+                                                        else if(name.equals("bat"))
+                                                            batList.add(value);
+                                                        else if(name.equals("git"))
+                                                            gitList.add(value);
+                                                    }
+                                                }
+                                            }
+
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        }
+    }
+
 }
