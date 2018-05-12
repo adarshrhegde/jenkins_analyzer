@@ -163,8 +163,7 @@ public class Pipeline {
         if (tools != null ? !tools.equals(pipeline.tools) : pipeline.tools != null) return false;
         if (options != null ? !options.equals(pipeline.options) : pipeline.options != null) return false;
         if (parameters != null ? !parameters.equals(pipeline.parameters) : pipeline.parameters != null) return false;
-        if (triggers != null ? !triggers.equals(pipeline.triggers) : pipeline.triggers != null) return false;
-        return additionalProperties != null ? additionalProperties.equals(pipeline.additionalProperties) : pipeline.additionalProperties == null;
+        return triggers != null ? triggers.equals(pipeline.triggers) : pipeline.triggers == null;
     }
 
     @Override
@@ -177,7 +176,6 @@ public class Pipeline {
         result = 31 * result + (options != null ? options.hashCode() : 0);
         result = 31 * result + (parameters != null ? parameters.hashCode() : 0);
         result = 31 * result + (triggers != null ? triggers.hashCode() : 0);
-        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
         return result;
     }
 }

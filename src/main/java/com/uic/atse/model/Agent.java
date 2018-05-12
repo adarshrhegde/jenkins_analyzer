@@ -69,15 +69,13 @@ public class Agent {
         Agent agent = (Agent) o;
 
         if (type != null ? !type.equals(agent.type) : agent.type != null) return false;
-        if (arguments != null ? !arguments.equals(agent.arguments) : agent.arguments != null) return false;
-        return additionalProperties != null ? additionalProperties.equals(agent.additionalProperties) : agent.additionalProperties == null;
+        return arguments != null ? arguments.equals(agent.arguments) : agent.arguments == null;
     }
 
     @Override
     public int hashCode() {
         int result = type != null ? type.hashCode() : 0;
         result = 31 * result + (arguments != null ? arguments.hashCode() : 0);
-        result = 31 * result + (additionalProperties != null ? additionalProperties.hashCode() : 0);
         return result;
     }
 }
