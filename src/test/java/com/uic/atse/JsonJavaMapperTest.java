@@ -92,10 +92,7 @@ public class JsonJavaMapperTest {
 
             JsonJavaMapper jsonMapper = new JsonJavaMapper();
 
-            System.out.println(json);
             Pipeline pipeline2 = jsonMapper.readJsonWithObjectMapper(json);
-            System.out.println(pipeline);
-            System.out.println(pipeline2);
             Assert.assertTrue(pipeline.equals(pipeline2));
 
         } catch (IOException | PipelineAnalyzerException e) {

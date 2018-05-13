@@ -1,10 +1,9 @@
 package com.uic.atse;
 
-import org.junit.Test;
 
 public class MainTest {
-    @Test
-    public void name() {
+
+    public static void main(String[] args){
 
     }
 }

@@ -48,7 +48,6 @@ public class Main {
                 return pipe;
             }).filter(pipeline->null!=pipeline).collect(Collectors.toList());
 
-            System.out.println("# of pipelines"+pipelines.size());
             PipelineAnalyzerImpl pipelineAnalyzer = new PipelineAnalyzerImpl(pipelines);
 
 
@@ -56,7 +55,7 @@ public class Main {
 
 
         } catch (PipelineAnalyzerException e) {
-            //logger.fatal("Exception occurred", e);
+            logger.fatal("Exception occurred", e);
         }
 
     }

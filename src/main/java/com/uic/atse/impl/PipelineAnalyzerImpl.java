@@ -61,7 +61,7 @@ public class PipelineAnalyzerImpl {
      */
     public void frequentPostConditions() {
         HashMap<String, Integer> condition_freq = new HashMap<String, Integer>();
-        System.out.println("getting FrequentPostConditionBlocks");
+        logger.info("getting FrequentPostConditionBlocks");
 
         // getting post conditions blocks at pipeline level
         for(Pipeline pipeline : pipelines)
@@ -88,7 +88,7 @@ public class PipelineAnalyzerImpl {
                 }
             }
         }
-        System.out.print("Most frequent post condition blocks"+condition_freq.toString());
+        logger.info("Most frequent post condition blocks"+condition_freq.toString());
         convertToJsonFile("frequentPostConditions",condition_freq);
 
     }
@@ -98,7 +98,7 @@ public class PipelineAnalyzerImpl {
       */
     public void frequentAgentTypes() {
         HashMap<String, Integer> agent_freq = new HashMap<String, Integer>();
-        System.out.println("getting FrequentAgentTypes");
+        logger.info("getting FrequentAgentTypes");
 
         // getting agent blocks at pipeline level
         for(Pipeline pipeline : pipelines)
@@ -119,7 +119,7 @@ public class PipelineAnalyzerImpl {
                 }
             }
         }
-        System.out.println("Agent types and their frequencies across different pipelines "+agent_freq.toString());
+        logger.info("Agent types and their frequencies across different pipelines "+agent_freq.toString());
         convertToJsonFile("frequentAgentTypes",agent_freq);
 
     }
@@ -129,7 +129,7 @@ public class PipelineAnalyzerImpl {
      */
     public void frequentStepTypes() {
         HashMap<String, Integer> step_freq = new HashMap<String, Integer>();
-        System.out.println("getting FrequentStepTypes");
+        logger.info("getting FrequentStepTypes");
 
         // getting agent blocks at pipeline-stage level
         for (Pipeline pipeline : pipelines) {
@@ -148,7 +148,7 @@ public class PipelineAnalyzerImpl {
                 }
             }
         }
-        System.out.println("Steps types and their frequencies across different pipelines " + step_freq.toString());
+        logger.info("Steps types and their frequencies across different pipelines " + step_freq.toString());
         convertToJsonFile("frequentStepTypes", step_freq);
 
     }
@@ -187,7 +187,7 @@ public class PipelineAnalyzerImpl {
      */
     public void frequentEnvVarTypes() {
         HashMap<String, Integer> env_freq = new HashMap<String, Integer>();
-        System.out.println("getting frequentEnvVarTypes");
+        logger.info("getting frequentEnvVarTypes");
 
         // getting post environment types at pipeline level
         for(Pipeline pipeline : pipelines) {
@@ -212,7 +212,7 @@ public class PipelineAnalyzerImpl {
                 }
             }
         }
-        System.out.print("Most frequent environment variables"+env_freq.toString());
+        logger.info("Most frequent environment variables"+env_freq.toString());
         convertToJsonFile("frequentEnvVarTypes", env_freq);
         logger.info("Result>>" + env_freq);
     }
@@ -274,10 +274,9 @@ public class PipelineAnalyzerImpl {
     public String mostUsedTools(){
         String MostUsedTool=new String();
 
-        System.out.println("Size main:"+pipelines.size());
+        logger.info("Size main:"+pipelines.size());
         for(int i=0;i<pipelines.size();i++) {
             if (null != pipelines.get(i) && pipelines.get(i).getTools() != null){
-                System.out.println(pipelines.get(i).getTools().toString());
                 List<Tool> toolList = pipelines.get(i).getTools();
                 if (!toolList.isEmpty()) {
                     for (Tool tools : toolList) {
@@ -341,7 +340,6 @@ public class PipelineAnalyzerImpl {
             obj.put("gradle", gradle);
 
             String jsonText = obj.toString();
-            System.out.print(jsonText);
 
             FileUtils.writeStringToFile(new File(properties.getOutputDirectory()+ "mostUsedTools.json"),jsonText,"utf-8");
         }
@@ -411,7 +409,7 @@ public class PipelineAnalyzerImpl {
                 }
             }
         }
-        System.out.print("Frequent when condition types " + whenCount.toString());
+        logger.info("Frequent when condition types " + whenCount.toString());
         convertToJsonFile("frequentWhenConditions", whenCount);
     }
 
@@ -644,7 +642,7 @@ public class PipelineAnalyzerImpl {
                 commandTypes.put(cmd,1);
             }
         }
-        System.out.println("Cmd types "+fileType+": "+commandTypes.toString());
+        logger.info("Cmd types "+fileType+": "+commandTypes.toString());
         convertToJsonFile(fileType,commandTypes);
 
     }
