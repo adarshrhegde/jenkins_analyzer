@@ -562,7 +562,12 @@ public class PipelineAnalyzerImpl {
     public void commonCommandsInSteps() {
         List<String> shList=new ArrayList<String>();
         List<String> batList=new ArrayList<String>();
-        List<String> allCommandList=new ArrayList<String>();
+        List<String> buildCommandList=new ArrayList<String>();
+        List<String> testCommandList=new ArrayList<String>();
+
+        List<String> deployCommandList=new ArrayList<String>();
+
+
         HashMap<String, String> commands = new HashMap<>();
 
 
@@ -587,12 +592,19 @@ public class PipelineAnalyzerImpl {
                                                 String key = argument.getKey();  //key
                                                 if (argsValue != null) {
                                                     String value = argsValue.getValue();//value
-                                                    allCommandList.add(value);
-                                                    commands.put(stageName,value);
+
                                                     if(name.equals("sh"))
                                                         shList.add(value);
                                                     else if(name.equals("bat"))
                                                         batList.add(value);
+
+                                                    if(stageName.toLowerCase().contains("build"))
+                                                        buildCommandList.add(value);
+                                                    else if(stageName.toLowerCase().contains("test"))
+                                                        testCommandList.add(value);
+                                                    else if(stageName.toLowerCase().contains("deploy"))
+                                                        deployCommandList.add(value);
+
 
                                                 }
                                             }
@@ -611,12 +623,15 @@ public class PipelineAnalyzerImpl {
         Collections.sort(shList);
         Collections.sort(batList);
 
+
         processList(shList,"LinuxCommands");
         processList(batList,"WindowsCommands");
-
+        processList(buildCommandList,"BuildCommands");
+        processList(testCommandList,"TestCommands");
+        processList(deployCommandList,"DeployCommands");
 
     }
-    /**Process a list of commands and classifies as per tasks*/
+    /**Process a list of commands and classifies as per tasks and provides counts*/
     public void processList(List<String> cmdlist,String fileType){
         String cmd;
         HashMap<String,Integer> commandTypes=new HashMap<>();
