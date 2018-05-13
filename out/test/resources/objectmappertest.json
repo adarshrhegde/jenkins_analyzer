@@ -1,0 +1,1 @@
+{"agent":{"type":"any"},"stages":[{"name":"Build","branches":[{"name":"default","steps":[{"name":"echo","arguments":[{"value":{"isLiteral":true,"value":"Building.."},"key":"message"}]}]}]},{"name":"Deploy","branches":[{"name":"default","steps":[{"name":"echo","arguments":[{"value":{"isLiteral":true,"value":"Deploying...."},"key":"message"}]}]}]}]}

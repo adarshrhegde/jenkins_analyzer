@@ -5,16 +5,14 @@ package com.uic.atse.impl;
 */
 
 import com.google.gson.Gson;
-import com.uic.atse.model.*;
-import org.apache.commons.io.FileUtils;
 import com.uic.atse.exception.PipelineAnalyzerException;
+import com.uic.atse.model.*;
 import com.uic.atse.utils.PipelineAnalyzerProperties;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-import javax.lang.model.element.Name;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -163,7 +161,7 @@ public class PipelineAnalyzerImpl {
 
         float totalPipelines = pipelines.size();
 
-        float pipelinesWithParameters = pipelines.stream().filter(pipeline -> null != pipeline.getParameters()).count();
+        float pipelinesWithParameters = pipelines.stream().filter(pipeline -> null!= pipeline && null != pipeline.getParameters()).count();
 
         JSONObject json = new JSONObject();
         try {
@@ -227,7 +225,7 @@ public class PipelineAnalyzerImpl {
 
         Map<String, Integer> paramNames = new HashMap<>();
 
-        pipelines.stream().filter(pipeline -> null != pipeline.getParameters()).forEach(pipeline -> {
+        pipelines.stream().filter(pipeline -> null!= pipeline && null != pipeline.getParameters()).forEach(pipeline -> {
             List<Parameter> parameters = pipeline.getParameters().getParameters();
 
             parameters.stream().filter(parameter -> null != parameter).forEach(parameter -> {
@@ -278,7 +276,7 @@ public class PipelineAnalyzerImpl {
 
         System.out.println("Size main:"+pipelines.size());
         for(int i=0;i<pipelines.size();i++) {
-            if (pipelines.get(i).getTools() != null){
+            if (null != pipelines.get(i) && pipelines.get(i).getTools() != null){
                 System.out.println(pipelines.get(i).getTools().toString());
                 List<Tool> toolList = pipelines.get(i).getTools();
                 if (!toolList.isEmpty()) {
@@ -345,7 +343,7 @@ public class PipelineAnalyzerImpl {
             String jsonText = obj.toString();
             System.out.print(jsonText);
 
-            FileUtils.writeStringToFile(new File(properties.getOutputDirectory()+ "Most Used Tools.json"),jsonText,"utf-8");
+            FileUtils.writeStringToFile(new File(properties.getOutputDirectory()+ "mostUsedTools.json"),jsonText,"utf-8");
         }
         catch(IOException i)
         { PipelineAnalyzerException ex = new PipelineAnalyzerException("Exception while printing json result to file");
@@ -385,8 +383,6 @@ public class PipelineAnalyzerImpl {
                 }
             }
         }
-        System.out.println(triggerCount.toString());
-        System.out.println(stagesCount.toString());
 
         similarity_score=getCorrelationCoefficient(stagesCount,triggerCount);
 

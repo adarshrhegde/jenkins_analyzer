@@ -86,7 +86,9 @@ public class JsonJavaMapperTest {
         String json = null;
 
         try {
-            json = FileUtils.readFileToString(new File("D:\\jenkinsfilesample\\jenkins.json"),"utf-8");
+            ClassLoader classLoader = getClass().getClassLoader();
+            File file = new File(classLoader.getResource("objectmappertest.json").getFile());
+            json = FileUtils.readFileToString(file,"utf-8");
 
             JsonJavaMapper jsonMapper = new JsonJavaMapper();
 

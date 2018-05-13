@@ -1,0 +1,518 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+	<script type="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	
+
+<script>
+
+	
+
+	$('document').ready(function(){
+		
+		
+		$.getJSON("frequentPostConditions.json", function(result){
+			
+			var fpc = document.getElementById('frequentPostConditions').getContext('2d');
+		
+			console.log(result)
+			var chart = new Chart(fpc, {
+		    // The type of chart we want to create
+		    type: 'bar',
+
+		    // The data for our dataset
+		    data: {
+		        labels: Object.keys(result),
+		        datasets: [{
+		            label: "# post condition blocks",
+		            backgroundColor: '#ff6384',
+					borderColor: '#ff6384',
+		            borderWidth: 1,
+		            data:Object.values(result)
+		        }]
+		    },
+
+		    // Configuration options go here
+		    options: {
+				scales: {
+			        yAxes: [{
+			            ticks: {
+			                beginAtZero:true
+			            }
+			        }]
+			    },
+		    	responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					//text: 'Frequent Post Condition blocks'
+				}
+
+		    }
+		
+		
+			});
+		});
+
+
+		$.getJSON("frequentAgentTypes.json", function(result){
+			
+			var fat = document.getElementById('frequentAgentTypes').getContext('2d');
+		
+			console.log(result)
+			var chart = new Chart(fat, {
+		    // The type of chart we want to create
+		    type: 'bar',
+
+		    // The data for our dataset
+		    data: {
+		        labels: Object.keys(result),
+		        datasets: [{
+		            label: "# agent types",
+		            backgroundColor: '#ff6384',
+					borderColor: '#ff6384',
+		            borderWidth: 1,
+		            data:Object.values(result)
+		        }]
+		    },
+
+		    // Configuration options go here
+		    options: {
+				scales: {
+			        yAxes: [{
+			            ticks: {
+			                beginAtZero:true
+			            }
+			        }]
+			    },
+		    	responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					//text: 'Frequent Agent Types'
+				}
+
+		    }
+		
+		
+			});
+		});
+
+		$.getJSON("frequentEnvVarTypes.json", function(result){
+
+			colors = []
+			for (i = 0; i < Object.keys(result).length; i++) {
+			    r = 255;
+			    g = Math.floor(Math.random() * 200);
+			    b = Math.floor(Math.random() * 200);
+			    
+			    c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+			    
+			    colors.push(c) ;
+			};
+			var fev = document.getElementById('frequentEnvVarTypes').getContext('2d');
+			
+			var myDoughnutChart = new Chart(fev, {
+			    type: 'doughnut',
+			    data: {
+			        labels: Object.keys(result),
+			        datasets: [{
+			            label: "# frequent environment variable types",			   			     
+			            data:Object.values(result),
+			            backgroundColor: colors
+			        }]
+			    },
+			    options: {}
+			});
+			
+		});
+
+		$.getJSON("frequentStageTypes.json", function(result){
+
+			var fst = document.getElementById('frequentStageTypes').getContext('2d');
+		
+			console.log(result)
+			var chart = new Chart(fst, {
+		    // The type of chart we want to create
+		    type: 'bar',
+
+		    // The data for our dataset
+		    data: {
+		        labels: Object.keys(result),
+		        datasets: [{
+		            label: "#  stage types",
+		            backgroundColor: '#ff6384',
+					borderColor: '#ff6384',
+		            borderWidth: 1,
+		            data:Object.values(result)
+		        }]
+		    },
+
+		    // Configuration options go here
+		    options: {
+				scales: {
+			        yAxes: [{
+			            ticks: {
+			                beginAtZero:true
+			            }
+			        }],
+			        xAxes: [{
+						ticks: {
+							autoSkip: false
+						}
+					}]
+			    },
+		    	responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					//text: 'Frequent Stage Types'
+				}
+
+		    }
+		
+		
+			});
+			
+		});
+
+
+
+		$.getJSON("frequentStepTypes.json", function(result){
+
+			var fst = document.getElementById('frequentStepTypes').getContext('2d');
+		
+			console.log(result)
+			var chart = new Chart(fst, {
+			responsive: true,
+            width:50,
+            height:30,
+		    // The type of chart we want to create
+		    type: 'bar',
+
+		    // The data for our dataset
+		    data: {
+		        labels: Object.keys(result),
+		        datasets: [{
+		            label: "#  step types",
+		            backgroundColor: '#ff6384',
+					borderColor: '#ff6384',
+		            borderWidth: 1,
+		            data:Object.values(result)
+		        }]
+		    },
+
+		    // Configuration options go here
+		    options: {
+				scales: {
+			        yAxes: [{
+			            ticks: {
+			                beginAtZero:true
+			            }
+			        }],
+			        xAxes: [{
+						ticks: {
+							autoSkip: false
+						}
+					}]
+			    },
+		    	responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					//text: 'Frequent Step Types'
+				}
+
+		    }
+		
+		
+			});
+			
+		});
+
+
+
+		
+
+		$.getJSON("frequentUserDefinedParameters.json", function(result){
+
+		var fud = document.getElementById('frequentUserDefinedParameters').getContext('2d');
+	
+		colors = []
+		for (i = 0; i < Object.keys(result).length; i++) {
+		    r = 255;
+		    g = Math.floor(Math.random() * 200);
+		    b = Math.floor(Math.random() * 200);
+		    
+		    c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+		    
+		    colors.push(c) ;
+		};
+		
+		var myDoughnutChart = new Chart(fud, {
+		    type: 'doughnut',
+		    data: {
+
+		        labels: Object.keys(result),
+		        datasets: [{
+		            label: "# frequent User Defined Parameters",			   			     
+		            data:Object.values(result),
+		            backgroundColor: colors
+		        }]
+		    },
+		    options: {}
+		    
+		});
+		
+	});
+			
+		
+
+
+
+
+
+		$.getJSON("LinuxCommands.json", function(result){
+
+			var fst = document.getElementById('LinuxCommands').getContext('2d');
+		
+			console.log(result)
+			var chart = new Chart(fst, {
+			responsive: true,
+            width:50,
+            height:30,
+		    // The type of chart we want to create
+		    type: 'bar',
+
+		    // The data for our dataset
+		    data: {
+		        labels: Object.keys(result),
+		        datasets: [{
+		            label: "#  linux commands",
+		            backgroundColor: '#ff6384',
+					borderColor: '#ff6384',
+		            borderWidth: 1,
+		            data:Object.values(result)
+		        }]
+		    },
+
+		    // Configuration options go here
+		    options: {
+				scales: {
+			        yAxes: [{
+			            ticks: {
+			                beginAtZero:true
+			            }
+			        }],
+			        xAxes: [{
+						ticks: {
+							autoSkip: false
+						}
+					}]
+			    },
+		    	responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					//text: 'Frequent Step Types'
+				}
+
+		    }
+		
+		
+			});
+			
+		});
+
+
+		$.getJSON("mostUsedTools.json", function(result){
+
+			var fst = document.getElementById('mostUsedTools').getContext('2d');
+		
+			console.log(result)
+			var chart = new Chart(fst, {
+			responsive: true,
+            width:50,
+            height:30,
+		    // The type of chart we want to create
+		    type: 'bar',
+
+		    // The data for our dataset
+		    data: {
+		        labels: Object.keys(result),
+		        datasets: [{
+		            label: "#  linux commands",
+		            backgroundColor: '#ff6384',
+					borderColor: '#ff6384',
+		            borderWidth: 1,
+		            data:Object.values(result)
+		        }]
+		    },
+
+		    // Configuration options go here
+		    options: {
+				scales: {
+			        yAxes: [{
+			            ticks: {
+			                beginAtZero:true
+			            }
+			        }],
+			        xAxes: [{
+						ticks: {
+							autoSkip: false
+						}
+					}]
+			    },
+		    	responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					//text: 'Frequent Step Types'
+				}
+
+		    }
+		
+		
+			});
+			
+		});
+
+
+		$.getJSON("WindowsCommands.json", function(result){
+
+		var fud = document.getElementById('WindowsCommands').getContext('2d');
+	
+		colors = []
+		for (i = 0; i < Object.keys(result).length; i++) {
+		    r = 255;
+		    g = Math.floor(Math.random() * 200);
+		    b = Math.floor(Math.random() * 200);
+		    
+		    c = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+		    
+		    colors.push(c) ;
+		};
+		
+		var myDoughnutChart = new Chart(fud, {
+		    type: 'doughnut',
+		    data: {
+
+		        labels: Object.keys(result),
+		        datasets: [{
+		            label: "# frequent Windows Commands",			   			     
+		            data:Object.values(result),
+		            backgroundColor: colors
+		        }]
+		    },
+		    options: {}
+		    
+		});
+		
+	});
+
+	});
+
+
+</script>
+</head>
+
+<body>
+
+	<div id="container">
+
+		<div class="jumbotron">
+    		<h2>Frequent Agent Types</h2> 
+
+		</div>
+		<canvas id="frequentAgentTypes" width="100" height="50"></canvas>
+
+
+		<div class="jumbotron">
+    		<h2>Frequent Post Condition Blocks</h2> 
+
+		</div>
+		<canvas id="frequentPostConditions" width="100" height="50"></canvas>
+
+
+		<div class="jumbotron">
+    		<h2>Frequent Environment Variable Types</h2> 
+
+		</div>
+		<canvas id="frequentEnvVarTypes" width="100" height="50"></canvas>
+
+		<div class="jumbotron">
+    		<h2>Frequent Stage Types</h2> 
+
+		</div>
+		<canvas id="frequentStageTypes" width="100" height="50"></canvas>
+
+		<div class="jumbotron">
+    		<h2>Frequent Step Types</h2> 
+
+		</div>
+		<canvas id="frequentStepTypes" width="100" height="50"></canvas>
+
+
+		<div class="jumbotron">
+    		<h2>Frequent User Defined Parameters</h2> 
+
+		</div>
+
+		<canvas id="frequentUserDefinedParameters" width="100" height="50"></canvas>
+
+
+		<div class="jumbotron">
+    		<h2>Frequent Linux Commands</h2> 
+
+		</div>
+
+		<canvas id="LinuxCommands" width="100" height="50"></canvas>
+
+
+		<div class="jumbotron">
+    		<h2>Most Used Tools</h2> 
+
+		</div>
+
+		<canvas id="mostUsedTools" width="100" height="50"></canvas>
+
+
+		<div class="jumbotron">
+    		<h2>Most Used Windows Commands</h2> 
+
+		</div>
+
+		<canvas id="WindowsCommands" width="100" height="50"></canvas>
+
+
+		
+			
+
+	</div>
+
+	<script>
+		
+
+
+
+	</script>
+
+</body>
+
+</html>
